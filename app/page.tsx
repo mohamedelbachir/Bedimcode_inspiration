@@ -5,7 +5,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 
 const GitHubRepos = () => {
-  const [repos, setRepos] = useState([]);
+  //@ts-ignore
+  const [repos, setRepos] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const reposPerPage = 8;
