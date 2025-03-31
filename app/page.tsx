@@ -40,7 +40,8 @@ const GitHubRepos = () => {
         //allRepos.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
 
         const reposWithPreviews = await Promise.all(
-          allRepos.map(async (repo, index) => {
+	  //@ts-ignore
+          allRepos.map(async (repo:any, index) => {
             const branches = ["main", "master"];
             let previewUrl = null;
             
