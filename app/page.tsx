@@ -5,14 +5,26 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 
 const GitHubRepos = () => {
-  const [repos, setRepos] = useState([]);
+  const [repos, setRepos] = useState<{
+              index: number,
+              name: string,
+              url: string,
+              preview: string|null,
+              description: string
+            }[]>([]);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const reposPerPage = 8;
 
   useEffect(() => {
     const fetchAllRepos = async () => {
-      let allRepos = [];
+      let allRepos = {
+              index: number,
+              name: string,
+              url: string,
+              preview: string|null,
+              description: string
+            }[];
       let page = 1;
       const perPage = 100;
       let hasMore = true;
@@ -30,7 +42,7 @@ const GitHubRepos = () => {
           }
         }
 
-        allRepos.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+        //allRepos.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
 
         const reposWithPreviews = await Promise.all(
           allRepos.map(async (repo, index) => {
