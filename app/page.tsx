@@ -1,50 +1,60 @@
-"use client"
-export const revalidate=0;
+"use client";
+
+export const revalidate = 0;
 import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 
+interface Repo {
+  index: number;
+  name: string;
+  url: string;
+  preview: string | null;
+  description: string;
+}
+
+interface GitHubRepo {
+  name: string;
+  html_url: string;
+  description: string | null;
+  owner: {
+    login: string;
+  };
+}
+
 const GitHubRepos = () => {
-  //@ts-ignore
-  const [repos, setRepos] = useState<any[]>([]);
+  const [repos, setRepos] = useState<Repo[]>([]);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const reposPerPage = 8;
 
   useEffect(() => {
     const fetchAllRepos = async () => {
-      let allRepos:{
-              index: number,
-              name: string,
-              url: string,
-              preview: string|null,
-              description: string
-            }[] = [];
+      let allRepos: GitHubRepo[] = [];
       let page = 1;
       const perPage = 100;
       let hasMore = true;
 
       try {
         while (hasMore) {
-          const res = await fetch(`https://api.github.com/users/bedimcode/repos?per_page=${perPage}&page=${page}`);
-          const data = await res.json();
-          
-          if (data.length === 0) {
+          const res = await fetch(
+            `https://api.github.com/users/bedimcode/repos?per_page=${perPage}&page=${page}`
+          );
+          const data: GitHubRepo[] = await res.json();
+
+          if (!Array.isArray(data) || data.length === 0) {
             hasMore = false;
           } else {
             allRepos = [...allRepos, ...data];
             page++;
-          }
+          }Property 'owner' does not exist on type '{ index: number; name: string; url: string; preview: string | null; description: string; }'.
         }
 
-        //allRepos.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
-
-        const reposWithPreviews = await Promise.all(
-	  //@ts-ignore
-          allRepos.map(async (repo:any, index) => {
+        const reposWithPreviews: Repo[] = await Promise.all(
+          allRepos.map(async (repo, index) => {
             const branches = ["main", "master"];
-            let previewUrl = null;
-            
+            let previewUrl: string | null = null;
+
             for (const branch of branches) {
               const url = `https://raw.githubusercontent.com/${repo.owner.login}/${repo.name}/${branch}/preview.png`;
               const checkPreview = await fetch(url, { method: "HEAD" });
@@ -53,7 +63,7 @@ const GitHubRepos = () => {
                 break;
               }
             }
-            
+
             return {
               index: index + 1,
               name: repo.name,
@@ -91,26 +101,42 @@ const GitHubRepos = () => {
             {currentRepos.map((repo) => (
               <Card key={repo.name} className="shadow-lg rounded-xl overflow-hidden">
                 {repo.preview ? (
-                  <img src={repo.preview} alt={repo.name} className="w-full h-48 object-fill bg-gray-100" />
+                  <img
+                    src={repo.preview}
+                    alt={repo.name}
+                    className="w-full h-48 object-fill bg-gray-100"
+                  />
                 ) : (
-                  <div className="w-full h-48 flex items-center justify-center bg-gray-200 text-gray-500">No Preview</div>
+                  <div className="w-full h-48 flex items-center justify-center bg-gray-200 text-gray-500">
+                    No Preview
+                  </div>
                 )}
                 <CardHeader>
-                  <CardTitle className="text-lg font-semibold truncate">{repo.name}</CardTitle>
+                  <CardTitle className="text-lg font-semibold truncate">
+                    {repo.name}
+                  </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <p className="text-sm text-gray-600 mb-4 line-clamp-2">{repo.description}</p>
                   <Button asChild className="w-full bg-blue-500 hover:bg-blue-600 text-white">
-                    <a href={repo.url} target="_blank" rel="noopener noreferrer">View Repository</a>
+                    <a href={repo.url} target="_blank" rel="noopener noreferrer">
+                      View Repository
+                    </a>
                   </Button>
                 </CardContent>
               </Card>
             ))}
           </div>
           <div className="flex justify-center mt-6 space-x-4">
-            <Button disabled={currentPage === 1} onClick={() => setCurrentPage(currentPage - 1)}>Previous</Button>
-            <span className="text-lg font-semibold">Page {currentPage} of {totalPages}</span>
-            <Button disabled={currentPage === totalPages} onClick={() => setCurrentPage(currentPage + 1)}>Next</Button>
+            <Button disabled={currentPage === 1} onClick={() => setCurrentPage(currentPage - 1)}>
+              Previous
+            </Button>
+            <span className="text-lg font-semibold">
+              Page {currentPage} of {totalPages}
+            </span>
+            <Button disabled={currentPage === totalPages} onClick={() => setCurrentPage(currentPage + 1)}>
+              Next
+            </Button>
           </div>
         </>
       )}
