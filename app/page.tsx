@@ -74,7 +74,7 @@ const GitHubRepos = () => {
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-6 text-center">Bedimcode's GitHub Repositories</h1>
+      <h1 className="text-3xl font-bold mb-6 text-center">Bedimcode&apos;s GitHub Repositories</h1>
       {loading ? (
         <p className="text-center">Loading...</p>
       ) : (
