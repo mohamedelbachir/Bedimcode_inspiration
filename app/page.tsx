@@ -4,6 +4,7 @@ export const revalidate = 0;
 import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
 interface Repo {
   index: number;
@@ -26,6 +27,7 @@ const GitHubRepos = () => {
   const [repos, setRepos] = useState<Repo[]>([]);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
+  const [searchTerm, setSearchTerm] = useState("");
   const reposPerPage = 8;
 
   useEffect(() => {
@@ -85,14 +87,27 @@ const GitHubRepos = () => {
     fetchAllRepos();
   }, []);
 
+  const filteredRepos = repos.filter(repo =>
+    repo.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   const indexOfLastRepo = currentPage * reposPerPage;
   const indexOfFirstRepo = indexOfLastRepo - reposPerPage;
-  const currentRepos = repos.slice(indexOfFirstRepo, indexOfLastRepo);
-  const totalPages = Math.ceil(repos.length / reposPerPage);
+  const currentRepos = filteredRepos.slice(indexOfFirstRepo, indexOfLastRepo);
+  const totalPages = Math.ceil(filteredRepos.length / reposPerPage);
 
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-3xl font-bold mb-6 text-center">Bedimcode&apos;s GitHub Repositories</h1>
+      <div className="mb-4 flex justify-center">
+        <Input
+          type="text"
+          placeholder="Search repositories..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="w-full max-w-md"
+        />
+      </div>
       {loading ? (
         <p className="text-center">Loading...</p>
       ) : (
