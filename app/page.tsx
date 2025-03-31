@@ -18,13 +18,13 @@ const GitHubRepos = () => {
 
   useEffect(() => {
     const fetchAllRepos = async () => {
-      let allRepos = {
+      let allRepos:{
               index: number,
               name: string,
               url: string,
               preview: string|null,
               description: string
-            }[];
+            }[] = [];
       let page = 1;
       const perPage = 100;
       let hasMore = true;
