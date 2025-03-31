@@ -47,7 +47,7 @@ const GitHubRepos = () => {
           } else {
             allRepos = [...allRepos, ...data];
             page++;
-          }Property 'owner' does not exist on type '{ index: number; name: string; url: string; preview: string | null; description: string; }'.
+          }
         }
 
         const reposWithPreviews: Repo[] = await Promise.all(
