@@ -40,7 +40,7 @@ const GitHubRepos = () => {
       try {
         while (hasMore) {
           const res = await fetch(
-            `https://api.github.com/users/bedimcode/repos?per_page=${perPage}&page=${page}`
+            `https://api.github.com/users/codewithsadee/repos?per_page=${perPage}&page=${page}`
           );
           const data: GitHubRepo[] = await res.json();
 
@@ -58,7 +58,7 @@ const GitHubRepos = () => {
             let previewUrl: string | null = null;
 
             for (const branch of branches) {
-              const url = `https://raw.githubusercontent.com/${repo.owner.login}/${repo.name}/${branch}/preview.png`;
+              const url = `https://raw.githubusercontent.com/${repo.owner.login}/${repo.name}/${branch}/readme-images/desktop.png`;
               const checkPreview = await fetch(url, { method: "HEAD" });
               if (checkPreview.ok) {
                 previewUrl = url;
@@ -69,7 +69,8 @@ const GitHubRepos = () => {
             return {
               index: index + 1,
               name: repo.name,
-              url: repo.html_url,
+              //url: repo.html_url,
+              url:"https://codewithsadee.github.io/"+repo.name,
               preview: previewUrl,
               description: repo.description || "No description available."
             };
