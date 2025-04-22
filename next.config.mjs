@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
  experimental: {
-    serverComponentsExternalPackages: ['pdf-qr'],
+    serverComponentsExternalPackages: ['pdf-qr','pdf2json'],
   },
 };
 

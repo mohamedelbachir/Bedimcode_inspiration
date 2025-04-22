@@ -9,21 +9,24 @@
     "lint": "next lint"
   },
   "engines": {
-  "node": "20.x"
-},
+    "node": "20.x"
+  },
   "dependencies": {
     "@radix-ui/react-slot": "^1.1.2",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "lucide-react": "^0.485.0",
     "next": "14.1.3",
+    "pdf-parse": "^1.1.1",
     "pdf-qr": "^1.0.0",
+    "pdf2json": "^3.1.5",
     "pdfjs-dist": "^5.1.91",
     "react": "^18",
     "react-dom": "^18",
     "react-pdftotext": "^1.3.4",
     "tailwind-merge": "^3.0.2",
-    "tailwindcss-animate": "^1.0.7"
+    "tailwindcss-animate": "^1.0.7",
+    "uuid": "^11.1.0"
   },
   "devDependencies": {
     "@types/node": "^20",
